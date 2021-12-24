@@ -8,10 +8,17 @@
   <artifactId>dubtest1</artifactId>
   <version>1.0-SNAPSHOT</version>
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
     <dependency>
-      <groupId>com.innoventsolutions.birt.runtime</groupId>
-      <artifactId>org.eclipse.birt.runtime_4.8.0-20180626</artifactId>
-      <version>4.8.0</version>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>5.1.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.14.0</version>
     </dependency>
   </dependencies>
 
