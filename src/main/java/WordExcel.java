@@ -8,6 +8,8 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,8 @@ public class WordExcel {
 
     public void test() {
         System.out.println("WordExcel.test");
-        XWPFDocument doc = readFile("src/main/resources/Файл.docx");
+        XWPFDocument doc = readFile("Файл.docx");
+        doc = readFile("d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx");
         // Список run-ов документа
         List<XWPFRun> list = getRunList(doc);
         for (int i = 0; i <= list.size() - 1; i++) {
@@ -26,22 +29,28 @@ public class WordExcel {
         }
     }
 
+    // Возвращает XWPFDocument, считанный из ресурса с именем inputFileName
     public XWPFDocument readFile(String inputFileName) {
         // Ввод из шаблона
         System.out.println("readFile...");
+        InputStream inputStream = null;
         FileInputStream fileInputStream = null;
         try {
-            fileInputStream = new FileInputStream(inputFileName);
-        } catch (FileNotFoundException e) {
+            // Читаем из ресурса, а не по абсолютному пути
+            inputStream = this.getClass().getClassLoader().getResourceAsStream(inputFileName);
+            if (inputStream == null) {
+                // Пробуем по абсолютному пути
+                fileInputStream = new FileInputStream(inputFileName);
+                inputStream = (InputStream) fileInputStream;
+            }
+        } catch (Exception e) {
             throw new RuntimeException(
                     "Ошибка при чтении файла: " + e.getMessage());
         }
-
-        //
         // открываем файл и считываем его содержимое в объект XWPFDocument
         XWPFDocument docxFile = null;
         try {
-            docxFile = new XWPFDocument(OPCPackage.open(fileInputStream));
+            docxFile = new XWPFDocument(OPCPackage.open(inputStream));
         } catch (Exception e) {
             throw new RuntimeException(
                     "Ошибка при создании XWPFDocument: " + e.getMessage());
@@ -98,18 +107,6 @@ public class WordExcel {
             }
         }
         return list;
-    }
-
-    // Все run-ы параграфа
-    public List<XWPFRun> getRunList(XWPFParagraph p) {
-        // Добавим все run-ы параграфа и вернем
-        return new ArrayList<>(p.getRuns());
-    }
-
-    // Все таблицы документа
-    public List<XWPFTable> getTableList(XWPFDocument doc) {
-        // Добавим все run-ы параграфа и вернем
-        return new ArrayList<>(doc.getTables());
     }
 
 }
