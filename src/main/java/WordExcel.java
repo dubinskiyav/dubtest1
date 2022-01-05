@@ -33,7 +33,8 @@ public class WordExcel {
         replaceText(doc,"run1", "run111111");
         replaceText(doc,"Run2.", "Run2.2222222222222222");
         replaceText(doc,"Run2.2222222222222222", "Run2.33333333333333");
-        ConvertToPDF(doc);
+        //ConvertToPDF(doc);
+        ConvertToPDF1(doc);
     }
 
     public void test() {

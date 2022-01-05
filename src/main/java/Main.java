@@ -4,7 +4,9 @@ public class Main {
         if (true) {
             WordToPdf wordToPdf = new WordToPdf();
             //wordToPdf.test1();
-            wordToPdf.test2();
+            //wordToPdf.test2();
+            //wordToPdf.test3();
+            wordToPdf.test4();
         }
         if (false) {
             WordExcel wordExcel = new WordExcel();
