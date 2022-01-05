@@ -2,8 +2,14 @@ public class Main {
     public static void main(String args[]) {
         System.out.println("Hello World");
         if (true) {
+            WordToPdf wordToPdf = new WordToPdf();
+            //wordToPdf.test1();
+            wordToPdf.test2();
+        }
+        if (false) {
             WordExcel wordExcel = new WordExcel();
-            wordExcel.test();
+            //wordExcel.test();
+            wordExcel.test1();
         }
         if (false) {
             XMLParseTest xmlParseTest = new XMLParseTest();

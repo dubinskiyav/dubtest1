@@ -1,13 +1,23 @@
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xwpf.converter.pdf.PdfConverter;
+import org.apache.poi.xwpf.converter.pdf.PdfOptions;
+import org.apache.poi.xwpf.converter.pdf.internal.Converter;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFStyles;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPageSz;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +25,16 @@ import java.util.List;
  * Работа с MS Word и Excel
  */
 public class WordExcel {
+
+    public void test1() {
+        System.out.println("WordExcel.test");
+        // Относительно resource
+        XWPFDocument doc = readFile("Файл.docx");
+        replaceText(doc,"run1", "run111111");
+        replaceText(doc,"Run2.", "Run2.2222222222222222");
+        replaceText(doc,"Run2.2222222222222222", "Run2.33333333333333");
+        ConvertToPDF(doc);
+    }
 
     public void test() {
         System.out.println("WordExcel.test");
@@ -32,6 +52,65 @@ public class WordExcel {
         list = getAllRunList(doc);
         for (int i = 0; i <= list.size() - 1; i++) {
             System.out.println(list.get(i).getText(0));
+        }
+    }
+
+    public void ConvertToPDF(XWPFDocument doc) {
+        // Готовим опции
+        PdfOptions options = PdfOptions.create();
+        try (OutputStream out = new FileOutputStream(new File("Файл.pdf"));) {
+            // Конвертируем
+            // Не раотает
+            PdfConverter.getInstance().convert(doc, out, options);
+            System.out.println(out.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    //    https://overcoder.net/q/2640455/%D0%BF%D0%BE%D0%BF%D1%8B%D1%82%D0%BA%D0%B0-%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C-%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%D0%B9-pdf-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-apache-poi
+    public void ConvertToPDF1(XWPFDocument document) {
+        // Готовим опции
+        PdfOptions options = PdfOptions.create();
+        try (OutputStream out = new FileOutputStream(new File("Файл1.pdf"));) {
+            // there must be a styles document, even if it is empty
+            XWPFStyles styles = document.createStyles();
+            // there must be section properties for the page having at least the page size set
+            CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
+            CTPageSz pageSz = sectPr.addNewPgSz();
+            pageSz.setW(BigInteger.valueOf(12240)); //12240 Twips = 12240/20 = 612 pt = 612/72 = 8.5"
+            pageSz.setH(BigInteger.valueOf(15840)); //15840 Twips = 15840/20 = 792 pt = 792/72 = 11"
+
+            // Конвертируем
+            PdfConverter converter = (PdfConverter)PdfConverter.getInstance();
+            converter.convert(document, new FileOutputStream("XWPFToPDFConverterSampleMin.pdf"), options);
+            System.out.println(out.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    // http://www.techwaregeeks.com/word-processing/convert-docx-to-pdf-using-java-top-word-to-pdf-java-libraries/
+    // https://products.aspose.com/words/java/
+
+    /**
+     * Меняет во всем документе текст
+     * @param doc - документ
+     * @param from - что менять
+     * @param to - на что менять
+     */
+    public void replaceText(XWPFDocument doc, String from, String to) {
+        // Список всех run-ов
+        List<XWPFRun> runList = getAllRunList(doc);
+        // цикл
+        for (XWPFRun run: runList) {
+            String text = (run.getText(0) != null)?run.getText(0):"" ;
+            if (!text.isEmpty() && text.equals(from)) {
+                // если не пустой и равный - меняем
+                System.out.println("Меняем " + text + " на " + to);
+                text = text.replace(text, to);
+                run.setText(text,0);
+            }
         }
     }
 
