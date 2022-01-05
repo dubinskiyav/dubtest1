@@ -23,11 +23,11 @@ public class WordToPdf2 {
         OutputStream fileForPdf = null;
         try {
             String fileName = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx";
+            fileName = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.doc";
             String fileNamePdf = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.pdf";
             //Below Code is for .doc file
             if(fileName.endsWith(".doc"))
             {
-                // Не сработало
                 HWPFDocument doc = new HWPFDocument(new FileInputStream(
                         fileName));
                 WordExtractor we=new WordExtractor(doc);
@@ -75,6 +75,7 @@ public class WordToPdf2 {
         String outputFile = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.pdf";
         System.out.println("inputFile:" + inputFile + ",outputFile:"+ outputFile);
         FileInputStream in= null;
+        // Не сработало
         try {
             in = new FileInputStream(inputFile);
             XWPFDocument document=new XWPFDocument(in);
