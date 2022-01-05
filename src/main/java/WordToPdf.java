@@ -48,10 +48,12 @@ public class WordToPdf {
     public void test2() {
 
         try {
-            FileInputStream docFile = new FileInputStream(new File("d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx"));
+            FileInputStream docFile = new FileInputStream(
+                    new File("d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx"));
             XWPFDocument doc = new XWPFDocument(docFile);
             PdfOptions pdfOptions = PdfOptions.create();
-            OutputStream out = new FileOutputStream(new File("d:/WORK/Programming/dubtest1/src/main/resources/Файл.pdf"));
+            OutputStream out = new FileOutputStream(
+                    new File("d:/WORK/Programming/dubtest1/src/main/resources/Файл.pdf"));
             // не работает
             PdfConverter.getInstance().convert(doc, out, pdfOptions);
             doc.close();
@@ -208,4 +210,5 @@ public class WordToPdf {
 
         System.out.println("test4 - Ok");
     }
+
 }

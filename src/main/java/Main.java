@@ -2,11 +2,20 @@ public class Main {
     public static void main(String args[]) {
         System.out.println("Hello World");
         if (true) {
+            WordToPdf2 wordToPdf2 = new WordToPdf2();
+            wordToPdf2.test1();
+            //wordToPdf2.test2();
+        }
+        if (false) {
+            WordToPdf1 wordToPdf1 = new WordToPdf1();
+            wordToPdf1.test1();
+        }
+        if (false) {
             WordToPdf wordToPdf = new WordToPdf();
             //wordToPdf.test1();
             //wordToPdf.test2();
             //wordToPdf.test3();
-            wordToPdf.test4();
+            //wordToPdf.test4();
         }
         if (false) {
             WordExcel wordExcel = new WordExcel();

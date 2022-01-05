@@ -14,6 +14,11 @@
       <name>e-iceblue</name>
       <url>http://repo.e-iceblue.com/nexus/content/groups/public/</url>
     </repository>
+    <repository>
+      <id>AsposeJavaAPI</id>
+      <name>Aspose Java API</name>
+      <url>https://repository.aspose.com/repo/</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -59,6 +64,19 @@
       <artifactId>fr.opensagres.xdocreport.converter</artifactId>
       <version>2.0.2</version>
     </dependency>
+    <dependency>
+      <groupId>com.aspose</groupId>
+      <artifactId>aspose-words</artifactId>
+      <version>20.1</version>
+      <classifier>jdk17</classifier>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-scratchpad</artifactId>
+      <version>5.1.0</version>
+    </dependency>
+
   </dependencies>
 
   <properties>
