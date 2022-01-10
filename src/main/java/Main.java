@@ -1,7 +1,11 @@
 public class Main {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         System.out.println("Hello World");
         if (true) {
+            WordToPdf3 wordToPdf3 = new WordToPdf3();
+            wordToPdf3.test();
+        }
+        if (false) {
             WordToPdf2 wordToPdf2 = new WordToPdf2();
             wordToPdf2.test1();
             //wordToPdf2.test2();

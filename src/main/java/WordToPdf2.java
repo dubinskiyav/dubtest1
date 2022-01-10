@@ -17,7 +17,7 @@ import java.io.OutputStream;
 
 public class WordToPdf2 {
 
-    public static void test1() {
+    public void test1() {
 
         String k = null;
         OutputStream fileForPdf = null;
@@ -74,10 +74,9 @@ public class WordToPdf2 {
         String inputFile = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx";
         String outputFile = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.pdf";
         System.out.println("inputFile:" + inputFile + ",outputFile:"+ outputFile);
-        FileInputStream in= null;
         // Не сработало
         try {
-            in = new FileInputStream(inputFile);
+            FileInputStream in = new FileInputStream(inputFile);
             XWPFDocument document=new XWPFDocument(in);
             File outFile=new File(outputFile);
             OutputStream out=new FileOutputStream(outFile);
