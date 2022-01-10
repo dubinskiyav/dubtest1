@@ -1,10 +1,10 @@
 import com.aspose.words.Document;
 
-public class WordToPdf1 {
+public class WordToPdfAspose {
     // https://blog.aspose.com/2020/02/20/convert-word-doc-docx-to-pdf-in-java-programmatically/
     public void test1(){
         // https://purchase.aspose.com/buy
-        // Просят 6 тысяч долларов за год за одну лицензию
+        // Просят 6-30 тысяч долларов за год за одну лицензию
         try {
             Document doc = new Document("d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx");
             doc.save("d:/WORK/Programming/dubtest1/src/main/resources/Файл.pdf");

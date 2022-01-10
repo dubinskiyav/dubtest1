@@ -1,18 +1,18 @@
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
-        if (true) {
-            WordToPdf3 wordToPdf3 = new WordToPdf3();
-            wordToPdf3.test();
+        if (false) {
+            WordToPdfDocuments4j wordToPdfDocuments4j = new WordToPdfDocuments4j();
+            wordToPdfDocuments4j.test();
         }
         if (false) {
-            WordToPdf2 wordToPdf2 = new WordToPdf2();
-            wordToPdf2.test1();
+            WordToPdfApachePOI wordToPdfApachePOI = new WordToPdfApachePOI();
+            wordToPdfApachePOI.test1();
             //wordToPdf2.test2();
         }
         if (false) {
-            WordToPdf1 wordToPdf1 = new WordToPdf1();
-            wordToPdf1.test1();
+            WordToPdfAspose wordToPdfAspose = new WordToPdfAspose();
+            wordToPdfAspose.test1();
         }
         if (false) {
             WordToPdf wordToPdf = new WordToPdf();

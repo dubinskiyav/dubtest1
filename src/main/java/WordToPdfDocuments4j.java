@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 
 // Работает!!!
-public class WordToPdf3 {
+public class WordToPdfDocuments4j {
     // https://question-it.com/questions/695424/preobrazovanie-word-docx-v-pdf-s-pomoschju-apache-poi-i-itext
     // Перед запуском вам необходимо установить офис MS
     public void test() {

@@ -15,7 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-public class WordToPdf2 {
+public class WordToPdfApachePOI {
 
     public void test1() {
 
@@ -23,7 +23,7 @@ public class WordToPdf2 {
         OutputStream fileForPdf = null;
         try {
             String fileName = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx";
-            fileName = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.doc";
+            //fileName = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.doc";
             String fileNamePdf = "d:/WORK/Programming/dubtest1/src/main/resources/Файл.pdf";
             //Below Code is for .doc file
             if(fileName.endsWith(".doc"))
@@ -81,6 +81,8 @@ public class WordToPdf2 {
             File outFile=new File(outputFile);
             OutputStream out=new FileOutputStream(outFile);
             PdfOptions options=null;
+            // Здесь валится вот так
+            // org.apache.poi.xwpf.converter.core.styles.XWPFStylesDocument.getFontsDocument(XWPFStylesDocument.java:1477)
             PdfConverter.getInstance().convert(document,out,options);
         } catch (Exception e) {
             e.printStackTrace();
