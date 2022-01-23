@@ -1,3 +1,5 @@
+package word;
+
 import com.documents4j.api.DocumentType;
 import com.documents4j.api.IConverter;
 import com.documents4j.job.LocalConverter;
@@ -18,7 +20,11 @@ import java.util.concurrent.TimeUnit;
 // Работает!!!
 public class WordToPdfDocuments4j {
     // https://question-it.com/questions/695424/preobrazovanie-word-docx-v-pdf-s-pomoschju-apache-poi-i-itext
-    // Перед запуском вам необходимо установить офис MS
+    // Перед запуском вам необходимо установить офис MS !!!!!!!
+    // https://documents4j.com/#/
+    // https://github.com/documents4j/documents4j.git
+    public void testRemote(){
+    }
     public void test() {
         ByteArrayOutputStream bo = new ByteArrayOutputStream();
         String baseFolder = "d:/WORK/Programming/dubtest1/src/main/resources";

@@ -1,3 +1,5 @@
+package word;
+
 import com.aspose.words.Document;
 
 public class WordToPdfAspose {

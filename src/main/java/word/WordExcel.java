@@ -1,3 +1,5 @@
+package word;
+
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 import org.apache.poi.xwpf.converter.pdf.PdfOptions;
@@ -27,7 +29,7 @@ import java.util.List;
 public class WordExcel {
 
     public void test1() {
-        System.out.println("WordExcel.test");
+        System.out.println("word.WordExcel.test");
         // Относительно resource
         XWPFDocument doc = readFile("Файл.docx");
         replaceText(doc,"run1", "run111111");
@@ -38,7 +40,7 @@ public class WordExcel {
     }
 
     public void test() {
-        System.out.println("WordExcel.test");
+        System.out.println("word.WordExcel.test");
         // Относительно resource
         XWPFDocument doc = readFile("Файл.docx");
         // Абсолютное имя

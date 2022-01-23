@@ -1,4 +1,4 @@
-//import com.spire.doc.*;
+package word;//import com.spire.doc.*;
 
 import com.spire.doc.Document;
 import com.spire.doc.FileFormat;
@@ -21,15 +21,13 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 
 
-public class WordToPdf {
+public class WordToPdfSpireDoc {
 
     // https://habr.com/ru/sandbox/142728/
     public void test1() {
