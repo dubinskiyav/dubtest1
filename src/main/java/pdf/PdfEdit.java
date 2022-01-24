@@ -48,27 +48,27 @@ public class PdfEdit {
             PdfDocument pdf = new PdfDocument(new PdfWriter(destFileNamePdf));
             PageSize ps = PageSize.A5;
             Document document = new Document(pdf, ps);
-            //Set column parameters
+            // Параметры колонок
             float offSet = 36;
             float columnWidth = (ps.getWidth() - offSet * 2 + 10) / 3;
             float columnHeight = ps.getHeight() - offSet * 2;
 
-            //Define column areas
+            // Описание колонок
             Rectangle[] columns = {
                     new Rectangle(offSet - 5, offSet, columnWidth, columnHeight),
                     new Rectangle(offSet + columnWidth, offSet, columnWidth, columnHeight),
                     new Rectangle(
                             offSet + columnWidth * 2 + 5, offSet, columnWidth, columnHeight)};
             document.setRenderer(new ColumnDocumentRenderer(document, columns));
-            // adding content
+            // Добавляем контекст
             Image gp = new Image(ImageDataFactory.create(imageGP)).setWidth(columnWidth);
             Image gu = new Image(ImageDataFactory.create(imageGU)).setWidth(columnWidth);
             String articleInstagram = new String(
                     Files.readAllBytes(Paths.get(textNewYork)), StandardCharsets.UTF_8);
-            // The method addArticle is defined in the full  NewYorkTimes sample
+            // Заполняем
             addArticle(document,
-                    "Instagram May Change Your Feed, Personalizing It With an Algorithm",
-                    "By MIKE ISAAC MARCH 15, 2016", gp, articleInstagram);
+                    "Нью-Йорк - википедия",
+                    "Проба от 24.01.2022", gp, articleInstagram);
 
             document.close();
         } catch (Exception e) {
