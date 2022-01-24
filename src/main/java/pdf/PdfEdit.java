@@ -64,8 +64,7 @@ public class PdfEdit {
             // Добавляем контекст
             Image gp = new Image(ImageDataFactory.create(imageGP)).setWidth(columnWidth);
             Image gu = new Image(ImageDataFactory.create(imageGU)).setWidth(columnWidth);
-            String articleInstagram = new String(
-                    Files.readAllBytes(Paths.get(textNewYork)), StandardCharsets.UTF_8);
+            String articleInstagram = Files.readString(Paths.get(textNewYork));
             // Заполняем
             addArticle(document,
                     "Нью-Йорк - википедия",
@@ -113,7 +112,7 @@ public class PdfEdit {
         String destFileNamePdf = baseFolder + "/Файл_HellowWorld.pdf";
         try {
             File file = new File(destFileNamePdf);
-            file.getParentFile().mkdirs();
+            // file.getParentFile().mkdirs();
             // Инифиализация PDF writer
             FileOutputStream fos = new FileOutputStream(destFileNamePdf);
             //PdfWriter writer = new PdfWriter(fos);
@@ -125,12 +124,12 @@ public class PdfEdit {
             // Добавление параграфа
             document.add(new Paragraph("Hellow World - Привет, мир!"));
             // Create a PdfFont
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
+            // PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
             // В стандартных фонтах нет русских букв, делаем свой
-            font = PdfFontFactory.createFont(CALIBRI_FONT_FILENAME, PdfEncodings.IDENTITY_H);
+            PdfFont font = PdfFontFactory.createFont(CALIBRI_FONT_FILENAME, PdfEncodings.IDENTITY_H);
             CALIBRI_FONT_FILENAME_BOLD = "./src/main/resources/Calibri-Italic.ttf";
-            PdfFont bold = PdfFontFactory.createFont(CALIBRI_FONT_FILENAME_BOLD, "Cp1251");
-            bold = PdfFontFactory.createFont(CALIBRI_FONT_FILENAME_BOLD, PdfEncodings.IDENTITY_H);
+            // PdfFont bold = PdfFontFactory.createFont(CALIBRI_FONT_FILENAME_BOLD, "Cp1251");
+            PdfFont bold = PdfFontFactory.createFont(CALIBRI_FONT_FILENAME_BOLD, PdfEncodings.IDENTITY_H);
             //PdfFont bold = PdfFontFactory.createFont(FONT_FILENAME, PdfEncodings.IDENTITY_H);
             document.add(new Paragraph("Hellow World - Привет, мир!").setFont(font));
             Paragraph p = new Paragraph("Новый русский параграф: ");
