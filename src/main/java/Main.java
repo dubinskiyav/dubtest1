@@ -11,8 +11,8 @@ public class Main {
         System.out.println("Hello World");
         if (true) {
             PdfEdit pdfEdit = new PdfEdit();
-            //pdfEdit.test1();
-            pdfEdit.test2();
+            //pdfEdit.HellowWorld();
+            pdfEdit.NewYork();
         }
         if (false) {
             WordToPdfDocx4j wordToPdfDocx4j = new WordToPdfDocx4j();
