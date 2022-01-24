@@ -4,6 +4,7 @@ package pdf;
 import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
@@ -68,7 +69,7 @@ public class PdfEdit {
             // Заполняем
             addArticle(document,
                     "Нью-Йорк - википедия",
-                    "Проба от 24.01.2022", gp, articleInstagram);
+                    "Википедия 24.01.2022", gp, articleInstagram);
 
             document.close();
         } catch (Exception e) {
@@ -81,18 +82,23 @@ public class PdfEdit {
     ) {
         try {
             PdfFont font = PdfFontFactory.createFont(CALIBRI_FONT_FILENAME, PdfEncodings.IDENTITY_H);
+            // Заголовок
             Paragraph p1 = new Paragraph(title)
                     .setFont(font)
+                    .setFontColor(ColorConstants.MAGENTA)
                     .setFontSize(14);
             doc.add(p1);
+            // Картинка
             doc.add(img);
+            // Автор
             Paragraph p2 = new Paragraph()
                     .setFont(font)
                     .setFontSize(7)
                     // todo - не могу поянть
-                    //.setFontColor()
+                    .setFontColor(ColorConstants.BLUE)
                     .add(author);
             doc.add(p2);
+            // Текст статьи
             Paragraph p3 = new Paragraph()
                     .setFont(font)
                     .setFontSize(10)
