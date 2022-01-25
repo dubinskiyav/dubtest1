@@ -8,10 +8,12 @@ import org.docx4j.Docx4J;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 
+/**
+ * Попытка преобразования doc в pdf - не работает
+ *  * @see <a href="https://www.codegrepper.com/code-examples/whatever/doc+to+pdf">тыц</a>
+ */
 public class WordToPdfDocx4j {
 
-    // https://www.codegrepper.com/code-examples/whatever/doc+to+pdf
-    // Не работает
     public void test(){
         try {
             InputStream templateInputStream =

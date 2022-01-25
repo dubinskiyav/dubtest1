@@ -16,15 +16,16 @@ import java.io.OutputStream;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-
-// Работает!!!
+/**
+ * Преобразование doc в pdf - работает
+ * <br>Использует локально установленный офис MS
+ * <br>Перед запуском вам необходимо установить офис MS !!!!!!!
+ * @see <a href="https://question-it.com/questions/695424/preobrazovanie-word-docx-v-pdf-s-pomoschju-apache-poi-i-itext">тыц</a>
+ * @see <a href="https://documents4j.com/#/">тыц</a>
+ * @see <a href="https://github.com/documents4j/documents4j.git">тыц</a>
+ */
 public class WordToPdfDocuments4j {
-    // https://question-it.com/questions/695424/preobrazovanie-word-docx-v-pdf-s-pomoschju-apache-poi-i-itext
-    // Перед запуском вам необходимо установить офис MS !!!!!!!
-    // https://documents4j.com/#/
-    // https://github.com/documents4j/documents4j.git
-    public void testRemote(){
-    }
+
     public void test() {
         ByteArrayOutputStream bo = new ByteArrayOutputStream();
         String baseFolder = "d:/WORK/Programming/dubtest1/src/main/resources";

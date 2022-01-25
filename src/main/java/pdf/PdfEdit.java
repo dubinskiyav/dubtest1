@@ -2,7 +2,6 @@ package pdf;
 
 
 import com.itextpdf.io.font.PdfEncodings;
-import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
@@ -10,7 +9,10 @@ import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfPage;
+import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.ColumnDocumentRenderer;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
@@ -24,14 +26,20 @@ import com.itextpdf.layout.properties.UnitValue;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-// https://kb.itextpdf.com/home/it7kb/ebooks/itext-7-jump-start-tutorial-for-java/chapter-1-introducing-basic-building-blocks
-// https://api.itextpdf.com/iText7/java/7.0.0/
+/**
+ * Класс для иллюстрации работы с pdf документами
+ * создание, модификация
+ * Использует библиотеку itextpdf
+ * @see <a href="https://kb.itextpdf.com/home/it7kb/ebooks/itext-7-jump-start-tutorial-for-java/chapter-1-introducing-basic-building-blocks">тыц</a>
+ * @see <a href="https://api.itextpdf.com/iText7/java/7.0.0/">тыц</a>
+ * @see <a href="https://itextpdf.com/ru/how-buy/agpl-license">тыц</a>
+ */
 
 public class PdfEdit {
 
@@ -43,6 +51,10 @@ public class PdfEdit {
     static String CALIBRI_FONT_FILENAME = "./src/main/resources/Calibri.ttf";
     static String CALIBRI_FONT_FILENAME_BOLD = "./src/main/resources/Calibri-Bold.ttf"; // Этот не работает - валится
 
+    /**
+     * Создает pdf из текстового файла
+     * Есть русские буквы, картинки, колонки
+     */
     public void NewYork() {
         String destFileNamePdf = baseFolder + "/Файл_NewYork.pdf";
         try {
@@ -76,6 +88,14 @@ public class PdfEdit {
         }
     }
 
+    /**
+     * Вспомогательный метод для метода NewYork
+     * @param doc документ
+     * @param title заголовок
+     * @param author автор
+     * @param img картинка
+     * @param text текст
+     */
     public static void addArticle(
             Document doc, String title, String author, Image img, String text
     ) {
@@ -108,6 +128,10 @@ public class PdfEdit {
         }
     }
 
+    /**
+     * Создание pdf
+     * Некоторые приемы
+     */
     public void HellowWorld() {
         String destFileNamePdf = baseFolder + "/Файл_HellowWorld.pdf";
         try {
@@ -187,7 +211,13 @@ public class PdfEdit {
         }
     }
 
-    // Добавляет строку в таблицу из строки
+    /**
+     * Добавляет строку в таблицу из строки в pdf
+     * @param table таблица
+     * @param line линия
+     * @param font фонт
+     * @param isHeader флаг заголовка
+     */
     public void process(Table table, String line, PdfFont font, boolean isHeader) {
         StringTokenizer tokenizer = new StringTokenizer(line, ";");
         while (tokenizer.hasMoreTokens()) {
@@ -200,6 +230,35 @@ public class PdfEdit {
                         new Cell().add(
                                 new Paragraph(tokenizer.nextToken()).setFont(font)));
             }
+        }
+    }
+
+    /**
+     * Редактирование pdf
+     *
+     * Refer to <a href="https://kb.itextpdf.com/home/it7kb/ebooks/itext-7-jump-start-tutorial-for-java/chapter-5-manipulating-an-existing-pdf-document">Baeldung</a>
+     */
+
+    public void Manipulating() {
+        String destFileNamePdf = baseFolder + "/Файл_Manipulating.pdf";
+        try {
+            PdfDocument pdfDoc = new PdfDocument(new PdfReader(sourceFileName), new PdfWriter(destFileNamePdf));
+            // Добавим контекст
+            PdfFont font = PdfFontFactory.createFont(CALIBRI_FONT_FILENAME, PdfEncodings.IDENTITY_H);
+            PdfCanvas canvas = new PdfCanvas(pdfDoc.getFirstPage());
+            canvas.beginText().setFontAndSize(font, 12)
+                    .moveText(265, 597)
+                    .showText("Я согласен на все")
+                    .endText();
+
+            int pageNum = pdfDoc.getNumberOfPages();
+            for (int i = 0; i < pageNum; i++) {
+                PdfPage pdfPage = pdfDoc.getPage(i);
+            }
+
+            pdfDoc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

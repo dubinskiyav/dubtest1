@@ -27,11 +27,14 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 
 
+/**
+ * Попытка преобразования doc в pdf - не работает
+ *  * @see <a href="https://habr.com/ru/sandbox/142728/">habr</a>
+ *  * @see <a href="https://www.youtube.com/watch?v=rFDwT1kRpLk&ab_channel=ChargeAhead">youtube</a>
+ */
 public class WordToPdfSpireDoc {
 
-    // https://habr.com/ru/sandbox/142728/
     public void test1() {
-        //Загрузить образец документа Word
         // Здесь валится
         com.spire.doc.Document document = new Document();
         document.loadFromFile("d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx");
@@ -40,9 +43,6 @@ public class WordToPdfSpireDoc {
         //Сохранить как PDF
         document.saveToFile("D/TEMP/Файл.pdf", FileFormat.PDF);
     }
-
-// https://www.youtube.com/watch?v=rFDwT1kRpLk&ab_channel=ChargeAhead
-
     public void test2() {
 
         try {

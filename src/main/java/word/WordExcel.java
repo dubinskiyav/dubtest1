@@ -95,6 +95,7 @@ public class WordExcel {
 
     // http://www.techwaregeeks.com/word-processing/convert-docx-to-pdf-using-java-top-word-to-pdf-java-libraries/
     // https://products.aspose.com/words/java/
+    // Стоит $5999 в год
 
     /**
      * Меняет во всем документе текст

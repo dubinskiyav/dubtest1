@@ -1,4 +1,4 @@
-package word;// https://newbedev.com/java-using-apache-poi-how-to-convert-ms-word-file-to-pdf
+package word;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Paragraph;
@@ -15,6 +15,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+/**
+ * Попытка генерации pdf из doc с помощью
+ * org.apache.poi.xwpf.converte
+ *
+ *
+ */
 public class WordToPdfApachePOI {
 
     public void test1() {

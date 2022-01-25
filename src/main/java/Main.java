@@ -1,4 +1,17 @@
+import array.ArrayExample;
+import array.ArrayListExample;
+import backend.BitTest;
+import backend.DatabaseTest;
+import basics.BoxingTest;
+import basics.ComparableExample;
+import basics.ExceptionExample;
+import basics.GenericsExample;
+import parsing.XMLParseTest;
 import pdf.PdfEdit;
+import basics.InterfaceTest;
+import stream.LambdaTest;
+import stream.StreamAPIExample;
+import stream.StreamCreateTest;
 import word.WordExcel;
 import word.WordToPdfApachePOI;
 import word.WordToPdfAspose;
@@ -12,7 +25,8 @@ public class Main {
         if (true) {
             PdfEdit pdfEdit = new PdfEdit();
             //pdfEdit.HellowWorld();
-            pdfEdit.NewYork();
+            //pdfEdit.NewYork();
+            pdfEdit.Manipulating();
         }
         if (false) {
             WordToPdfDocx4j wordToPdfDocx4j = new WordToPdfDocx4j();
