@@ -1,3 +1,4 @@
+import Excel.Excel;
 import array.ArrayExample;
 import array.ArrayListExample;
 import backend.BitTest;
@@ -6,6 +7,7 @@ import basics.BoxingTest;
 import basics.ComparableExample;
 import basics.ExceptionExample;
 import basics.GenericsExample;
+import format.FormatExample;
 import parsing.XMLParseTest;
 import pdf.PdfEdit;
 import basics.InterfaceTest;
@@ -23,6 +25,13 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
         if (true) {
+            Excel.test1();
+        }
+        if (false) {
+            FormatExample.decimalFormat();
+            FormatExample.doubleFormat();
+        }
+        if (false) {
             PdfEdit pdfEdit = new PdfEdit();
             //pdfEdit.HellowWorld();
             //pdfEdit.NewYork();
