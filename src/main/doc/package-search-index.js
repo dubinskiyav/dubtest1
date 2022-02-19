@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"array"},{"l":"backend"},{"l":"basics"},{"l":"parsing"},{"l":"pdf"},{"l":"stream"},{"l":"word"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"array"},{"l":"backend"},{"l":"basics"},{"l":"Excel"},{"l":"format"},{"l":"parsing"},{"l":"pdf"},{"l":"stream"},{"l":"word"}]
