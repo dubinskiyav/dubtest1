@@ -24,7 +24,11 @@ import word.WordToPdfSpireDoc;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
-        if (true) {
+        if (false) {
+            StreamAPIExample streamAPIExample = new StreamAPIExample();
+            streamAPIExample.test11();
+        }
+        if (false) {
             Excel excel = new Excel();
             excel.test();
         }
@@ -62,10 +66,10 @@ public class Main {
             //wordToPdfSpireDoc.test3();
             //wordToPdfSpireDoc.test4();
         }
-        if (false) {
+        if (true) {
             WordExcel wordExcel = new WordExcel();
-            //wordExcel.test();
-            wordExcel.test1();
+            wordExcel.test();
+            //wordExcel.test1();
         }
         if (false) {
             XMLParseTest xmlParseTest = new XMLParseTest();

@@ -14,12 +14,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,18 +28,21 @@ import java.util.List;
  */
 public class Excel {
 
-    String fileName = "D:/TEMP/fileName.xlsx";
-    String fileNameNew = "D:/TEMP/fileNameNew.xlsx";
     /**
      * Создает файл Excel и заполняет его разными данными с разными форматами
      */
-    public void create() {
+    public void create(String fileName) {
         System.out.println("Excel.test - Start");
         delete(fileName);
         Workbook workbook = new XSSFWorkbook(); // файл Excel
         Sheet sheet = workbook.createSheet("Проба пера"); // Excel лист
         DataFormat dataFormat = workbook.createDataFormat(); // Формат
         CellStyle cellStyle = workbook.createCellStyle(); // Стиль
+
+        // В первую колонку добавим нумерацию
+        for (int i = 0; i < 20; i++) {
+            sheet.createRow(i).createCell(0).setCellValue(i+1);
+        }
 
         int rowNumber = 0; // Нумерация строк с нуля
         int colNumber = 0; // Нумерация колонок тоже с нуля
@@ -87,7 +90,15 @@ public class Excel {
         colNumber = 3;
         row = sheet.createRow(rowNumber);
         cell = row.createCell(colNumber);
-        cell.setCellValue("_TABLE_WORKER_NAME_");
+        cell.setCellValue("_TABLE_CITY_");
+        // После таблицы
+        rowNumber = 9;
+        colNumber = 2;
+        row = sheet.createRow(rowNumber);
+        cell = row.createCell(colNumber);
+        cell.setCellValue("После таблицы 9");
+        rowNumber = 13;
+        sheet.createRow(rowNumber).createCell(colNumber).setCellValue("После таблицы 13");
         try {
             workbook.write(new FileOutputStream(fileName));
             workbook.close();
@@ -98,6 +109,7 @@ public class Excel {
 
     // Значения для замены
     public class Val {
+
         String name;
         String value;
 
@@ -107,18 +119,87 @@ public class Excel {
         }
     }
 
+    // Ячейка в строке в таблице
+    public class CellTable {
+
+        int number; // Номер ячейки по порядку с 0
+        Object value; // Значение
+
+        public CellTable(int number, Object value) {
+            this.number = number;
+            this.value = value;
+        }
+    }
+
+    // Строка в таблице
+    public class RowTable {
+
+        int number; // Номер строки по порядку с 0
+        ArrayList<CellTable> cellTables; // Список ячеек строки
+
+        public RowTable() {
+            cellTables = new ArrayList<>();
+        }
+
+        // Добавление значение в конец
+        public void add(Object o) {
+            cellTables.add(new CellTable(cellTables.size() + 1, o));
+        }
+    }
+
+    // Таблица
+    public class TableE {
+
+        public ArrayList<RowTable> rows; // Список строк
+
+        public TableE() {
+            rows = new ArrayList<>();
+        }
+
+        public void add(RowTable r) {
+            rows.add(r);
+        }
+    }
+
     /**
-     * Открывает Excel и заменяет в нем поля на данные
-     * https://java-online.ru/java-excel-read.xhtml
+     * Открывает Excel и заменяет в нем поля на данные https://java-online.ru/java-excel-read.xhtml
      */
-    public void fill() {
+    public void fill(String fileName) {
         List<Val> vals = new ArrayList<>();
-        vals.add(new Val("_COMPANY_NAME_","Геликон Про"));
+        vals.add(new Val("_COMPANY_NAME_", "Геликон Про"));
+        // Список таблиц
+        HashMap<String, TableE> tables = new HashMap<>();
+        // таблица
+        TableE table = new TableE();
+        // Строка таблицы
+        RowTable rowTable = new RowTable();
+        rowTable.number = 0;
+        rowTable.add("Первая строка");
+        rowTable.add("Лондон");
+        rowTable.add(10000000);
+        table.add(rowTable); // Добавим в таблицу
+        rowTable = new RowTable();
+        rowTable.number = 1;
+        rowTable.add("Вторая строка");
+        rowTable.add("Париж");
+        rowTable.add(6000000);
+        table.add(rowTable);
+        rowTable = new RowTable();
+        rowTable.number = 2;
+        rowTable.add("Третья строка");
+        rowTable.add("Нью-Йорк");
+        rowTable.add(15000000);
+        table.add(rowTable);
+        tables.put("_TABLE_CITY_", table);
         // Читаем
-        File file = new File(fileName);
         XSSFWorkbook workbook = null;
+        File file = new File(fileName);
         try {
-            workbook = (XSSFWorkbook) WorkbookFactory.create(file);
+            //workbook = (XSSFWorkbook) WorkbookFactory.create(file);
+            // Надо так, иначе исходный файл так же модифицируется
+            InputStream is = new FileInputStream(file);
+            workbook = (XSSFWorkbook) WorkbookFactory.create(is);
+            is.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,7 +218,6 @@ public class Excel {
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
                 System.out.println("columnNumber=" + cell.getColumnIndex());
-                // Change to getCellType() if using POI 4.x
                 CellType cellType = cell.getCellType();
                 switch (cellType) {
                     case STRING:
@@ -167,6 +247,7 @@ public class Excel {
                 }
                 if (cellType == CellType.STRING) {
                     String sourceValue = cell.getStringCellValue();
+                    // Ищем в значениях для замены
                     for (Val val : vals) {
                         if (sourceValue.equalsIgnoreCase(val.name)) {
                             // Заменяем
@@ -176,8 +257,144 @@ public class Excel {
                 }
             }
         }
+        // Таблицы
+        for (String n : tables.keySet()) {
+            // Найдем
+            int rowNumber = -1;
+            int colNumber = -1;
+            String tableName = null;
+            for (Row row : sheet) {
+                for (Cell cell : row) {
+                    CellType cellType = cell.getCellType();
+                    if (cellType == CellType.STRING) {
+                        if (cell.getStringCellValue().equals(n)) {
+                            // Есть, запомним номера
+                            rowNumber = row.getRowNum();
+                            colNumber = cell.getColumnIndex();
+                            tableName = n;
+                        }
+                    }
+                }
+            }
+            if (rowNumber != -1) {
+                // Ищем в таблицах для замены
+                TableE table1 = tables.get(tableName);
+                sheet.shiftRows(rowNumber, sheet.getLastRowNum(), 1, true, false);
+                Row row = sheet.createRow(rowNumber); // Строка
+                Cell cell = row.createCell(colNumber); // Ячейка
+                // Нашли - вставляем таблицу t
+                // По строкам
+                int rowsCount = table1.rows.size();
+                for (int i = 0; i < rowsCount; i++) {
+                    // Добавим строку в эксель
+                    Row row1 = sheet.createRow(rowNumber++);
+                    // Получим список для строки под номером i
+                    int finalI = i;
+                    RowTable rt = table1.rows.stream()
+                            .filter(r1 -> r1.number == finalI).findAny().orElse(null);
+                    if (rt != null) {
+                        // Колонка
+                        int cn = cell.getColumnIndex();
+                        // По столбцам
+                        for (int j = 0; j < rt.cellTables.size(); j++) {
+                            Cell cell1 = row1.createCell(cn++);
+                            String s = rt.cellTables.get(j).value.toString();
+                            cell1.setCellValue(s);
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("Ура!");
+/*
+        for (Row row : sheet) {
+            for (Cell cell : row) {
+                CellType cellType = cell.getCellType();
+                if (cellType == CellType.STRING) {
+                    String sourceValue = cell.getStringCellValue();
+                    // Ищем в таблицах для замены
+                    TableE table1 = tables.get(sourceValue);
+                    if (table1 != null) {
+                        // Координаты ячейки
+                        int currentRowNumber = cell.getRowIndex();
+                        // По строкам
+                        int rowsCount = table1.rows.size();
+                        for (int i = 0; i < rowsCount; i++) {
+                            // Добавим строку в эксель
+                            Row row1 = sheet.createRow(currentRowNumber++);
+                            // Получим список для строки под номером i
+                            int finalI = i;
+                            RowTable rt = table1.rows.stream()
+                                    .filter(r1 -> r1.number == finalI).findAny().orElse(null);
+                            if (rt != null) {
+                                // Колонка
+                                int cn = cell.getColumnIndex();
+                                // По столбцам
+                                for (int j = 0; j < rt.cellTables.size(); j++) {
+                                    Cell cell1 = row1.createCell(cn++);
+                                    String s = rt.cellTables.get(j).value.toString();
+                                    cell1.setCellValue(s);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Таблицы
+        // Флаг что еще не нашли
+        // Когда нашли - больше не перебираем, так как теряется нумерация из-за вставки строк
+        boolean notFoundYet = true;
+        // Итератор для всех строчек листа
+        rowIterator = sheet.iterator();
+        // Перебираем все непустые строки
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            System.out.println("rowNum=" + row.getRowNum());
+            // Итератор для ячеек текущей строки
+            Iterator<Cell> cellIterator = row.cellIterator();
+            // Перебираем все непустые ячейки
+            while (cellIterator.hasNext() && notFoundYet) {
+                Cell cell = cellIterator.next();
+                System.out.println("columnNumber=" + cell.getColumnIndex());
+                CellType cellType = cell.getCellType();
+                if (cellType == CellType.STRING) {
+                    String sourceValue = cell.getStringCellValue();
+                    // Ищем в таблицах для замены
+                    TableE table1 = tables.get(sourceValue);
+                    if (table1 != null) {
+                        // Координаты ячейки
+                        int currentRowNumber = cell.getRowIndex();
+                        // По строкам
+                        int rowsCount = table1.rows.size();
+                        for (int i = 0; i < rowsCount; i++) {
+                            // Добавим строку в эксель
+                            Row row1 = sheet.createRow(currentRowNumber++);
+                            // Получим список для строки под номером i
+                            int finalI = i;
+                            RowTable rt = table1.rows.stream()
+                                    .filter(r1 -> r1.number == finalI).findAny().orElse(null);
+                            if (rt != null) {
+                                // Колонка
+                                int cn = cell.getColumnIndex();
+                                // По столбцам
+                                for (int j = 0; j < rt.cellTables.size(); j++) {
+                                    Cell cell1 = row1.createCell(cn++);
+                                    String s = rt.cellTables.get(j).value.toString();
+                                    cell1.setCellValue(s);
+                                }
+                            }
+                        }
+                        notFoundYet = false; // Нашли и заменили - флаг ненайденности в фальш
+                    }
+                }
+            }
+        }
+
+         */
+        System.out.println("Excel modified");
         try {
-            FileOutputStream outputStream = new FileOutputStream(fileNameNew);
+            FileOutputStream outputStream = new FileOutputStream("D:/TEMP/fileNameNew.xlsx");
             workbook.write(outputStream);
             workbook.close();
         } catch (IOException e) {
@@ -185,13 +402,13 @@ public class Excel {
         }
     }
 
-    public void delete(String fileName){
+    public void delete(String fileName) {
         File file = new File(fileName);
         System.out.println(file.delete());
     }
 
     public void test() {
-        create();
-        fill();
+        create("D:/TEMP/fileName.xlsx");
+        fill("D:/TEMP/fileName.xlsx");
     }
 }

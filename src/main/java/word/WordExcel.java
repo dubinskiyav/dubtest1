@@ -43,18 +43,19 @@ public class WordExcel {
         System.out.println("word.WordExcel.test");
         // Относительно resource
         XWPFDocument doc = readFile("Файл.docx");
+        doc = readFile("shablon_zapros_o_vidache_tu.docx");
         // Абсолютное имя
         // doc = readFile("d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx");
         System.out.println("!!!!!!!!!!!!!");
         // Список run-ов документа
         List<XWPFRun> list = getRunList(doc);
         for (int i = 0; i <= list.size() - 1; i++) {
-            System.out.println(list.get(i).getText(0));
+            System.out.println("run " + i + ": " + list.get(i).getText(0));
         }
         System.out.println("!!!!!!!!!!!!!");
         list = getAllRunList(doc);
         for (int i = 0; i <= list.size() - 1; i++) {
-            System.out.println(list.get(i).getText(0));
+            //System.out.println(list.get(i).getText(0));
         }
     }
 

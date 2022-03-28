@@ -27,7 +27,9 @@ public class StreamAPIExample {
         int[] numbers = {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
         int count = 0;
         for (int i : numbers) {
-            if (i > 0) { count++; }
+            if (i > 0) {
+                count++;
+            }
         }
         System.out.println(count);
         long countL = IntStream.of(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5).filter(w -> w > 0).count();
@@ -73,27 +75,27 @@ public class StreamAPIExample {
                 .filter(s -> s.length() == 6)
                 .forEach(s -> System.out.println(s));
         Stream.of(new Phone("iPhone 6 S", 54000),
-                new Phone("Lumia 950", 45000),
-                new Phone("Samsung Galaxy S 6", 40000))
+                        new Phone("Lumia 950", 45000),
+                        new Phone("Samsung Galaxy S 6", 40000))
                 .filter(p -> p.getPrice() < 50000)
                 .forEach(p -> System.out.println(p.getName()));
         // Поиск элемента
         Integer price = Stream.of(new Phone("iPhone 6 S", 54000),
-                new Phone("Lumia 950", 45000),
-                new Phone("Samsung Galaxy S 6", 40000))
+                        new Phone("Lumia 950", 45000),
+                        new Phone("Samsung Galaxy S 6", 40000))
                 .filter(p -> p.getPrice() == 40000)
                 .findAny()
-                .orElse(new Phone(null,0)).getPrice();
+                .orElse(new Phone(null, 0)).getPrice();
 
         // преобразуем тип
         Stream.of(new Phone("iPhone 6 S", 54000),
-                new Phone("Lumia 950", 45000),
-                new Phone("Samsung Galaxy S 6", 40000))
+                        new Phone("Lumia 950", 45000),
+                        new Phone("Samsung Galaxy S 6", 40000))
                 .map(p -> p.getName()) // помещаем в поток только названия телефонов
                 .forEach(s -> System.out.println(s));
         Stream.of(new Phone("iPhone 6 S", 54000),
-                new Phone("Lumia 950", 45000),
-                new Phone("Samsung Galaxy S 6", 40000))
+                        new Phone("Lumia 950", 45000),
+                        new Phone("Samsung Galaxy S 6", 40000))
                 .mapToInt(p -> p.getPrice()) // помещаем в поток только цену телефонов
                 .forEach(s -> System.out.println(s));
         // из одного элемента нужно получить несколько
@@ -109,9 +111,9 @@ public class StreamAPIExample {
                 ))
                 .forEach(s -> System.out.println(s));
         // Найти companytype_oc которых нет в companytype_dc
-        ArrayList<Integer> companytype_oc = new ArrayList<>(Arrays.asList(1,2,3,5,6,8,9));
-        ArrayList<Integer> companytype_dc = new ArrayList<>(Arrays.asList(1,7));
-        int i =companytype_oc.stream()
+        ArrayList<Integer> companytype_oc = new ArrayList<>(Arrays.asList(1, 2, 3, 5, 6, 8, 9));
+        ArrayList<Integer> companytype_dc = new ArrayList<>(Arrays.asList(1, 7));
+        int i = companytype_oc.stream()
                 .filter(oc -> !companytype_dc.contains(oc))
                 .findAny().orElse(0);
         System.out.println(i);
@@ -245,7 +247,7 @@ public class StreamAPIExample {
         streamTest.add(new Phone("2 Pixel 2", 400));
         streamTest.add(new Phone("3 Nokia 9", "HMD Global", 150));
         streamTest.add(new Phone("4 Galaxy S9", "Samsung", 300));
-        System.out.println(streamTest.add(new Phone("iPhone 8",1000)));
+        System.out.println(streamTest.add(new Phone("iPhone 8", 1000)));
 
         // Поток из метода интерфейса возвращающего List телефонов
         Stream<Phone> phs = streamTest.listPhoneList().stream();
@@ -274,16 +276,92 @@ public class StreamAPIExample {
                 .reduce((t, u) -> t + "," + u)
                 .orElse("");
     }
+
     public void test10() {
         // Стрим в лист
         List<Phone> phonesCopy = Stream.of(
-                new Phone("iPhone X", "Apple", 600),
-                new Phone("Pixel 2", "Google", 500),
-                new Phone("iPhone 8", "Apple", 450),
-                new Phone("Nokia 9", "HMD Global", 150),
-                new Phone("Galaxy S9", "Samsung", 300))
-                .map(p -> new Phone(p.getCompany(),p.getName(),p.getPrice() * 10))
+                        new Phone("iPhone X", "Apple", 600),
+                        new Phone("Pixel 2", "Google", 500),
+                        new Phone("iPhone 8", "Apple", 450),
+                        new Phone("Nokia 9", "HMD Global", 150),
+                        new Phone("Galaxy S9", "Samsung", 300))
+                .map(p -> new Phone(p.getCompany(), p.getName(), p.getPrice() * 10))
                 .collect(Collectors.toList());
+    }
+
+    public void test11() {
+        List<ControlObject> controlObjectList = new ArrayList<>(List.of(
+                new ControlObject(1, "Роли: Получение объекта по идентификатору",
+                        "/v1/apps/admin/credential/accessrole/get"),
+                new ControlObject(2, "Роли: Удаление одного или нескольких объектов",
+                        "/v1/apps/admin/credential/accessrole/delete"),
+                new ControlObject(18, "Единицы измерения: Получение объекта по идентификатору",
+                        "/v1/apps/refbooks/edizm/edizm/get"),
+                new ControlObject(19, "Единицы измерения: Удаление одного или нескольких объектов",
+                        "/v1/apps/refbooks/edizm/edizm/delete"),
+                new ControlObject(23, "Пользователи: Получение объекта по идентификатору",
+                        "/v1/apps/admin/credential/proguser/get"),
+                new ControlObject(26,
+                        "Пользователи: Сохранение объекта (добавление или изменение) - изменение",
+                        "/v1/apps/admin/credential/proguser/save#upd"),
+                new ControlObject(29, "Пользователи: Список ролей пользователя",
+                        "/v1/apps/admin/credential/proguser/roles/getlist"),
+                new ControlObject(30,
+                        "Пользователи: Сохранить список ролей пользователя - изменение",
+                        "/v1/apps/admin/credential/proguser/roles/save#upd"),
+                new ControlObject(31, "Пользователи: Сохранить список ролей пользователя - вставка",
+                        "/v1/apps/admin/credential/proguser/roles/save#ins"),
+                new ControlObject(35, "Сессии: Закрытие сессий",
+                        "/v1/apps/admin/audit/session/close"),
+                new ControlObject(36, "Сессии: Получение списка объектов",
+                        "/v1/apps/admin/audit/session/getlist")
+        ));
+        controlObjectList.stream() // получаем поток
+                .forEach(p -> {
+                    System.out.println(p.controlObjectUrl);
+                    String[] subStr;
+                    String delimeter = "/";
+                    subStr = p.controlObjectUrl.split(delimeter);
+                    for (int i = 0; i < subStr.length; i++) {
+                        //System.out.println(subStr[i]);
+                    }
+
+                    String contur = subStr[3];
+                    String exe = subStr[4];
+                    String object = subStr[5];
+                    String code = contur + "." + exe + "." + object;
+                    System.out.println(p.controlObjectId + " " + contur + " " + exe + " " + object);
+                    System.out.println(code);
+                });
+        System.out.println(Collections.max(controlObjectList.stream()
+                .map(p -> p.controlObjectId)
+                .collect(Collectors.toList()))
+        );
+
+        return;
+    }
+
+    class ControlObject {
+
+        Integer controlObjectId;
+        String controlObjectName;
+        String controlObjectUrl;
+
+        public ControlObject(Integer controlObjectId, String controlObjectName,
+                String controlObjectUrl) {
+            this.controlObjectId = controlObjectId;
+            this.controlObjectName = controlObjectName;
+            this.controlObjectUrl = controlObjectUrl;
+        }
+
+        @Override
+        public String toString() {
+            return "ControlObject{" +
+                    "controlObjectId=" + controlObjectId +
+                    ", controlObjectName='" + controlObjectName + '\'' +
+                    ", controlObjectUrl='" + controlObjectUrl + '\'' +
+                    '}';
+        }
     }
 }
 
@@ -333,7 +411,9 @@ class Phone {
     }
 
     public static int compare(Phone p1, Phone p2) {
-        if (p1.getPrice() > p2.getPrice()) { return 1; }
+        if (p1.getPrice() > p2.getPrice()) {
+            return 1;
+        }
         return -1;
     }
 }
@@ -341,10 +421,13 @@ class Phone {
 interface StreamTest {
 
     Integer add(Phone phone);
+
     String getName();
+
     List<Phone> listPhoneList();
 
     Stream<String> streamName();
+
     <T> Stream<T> stream();
 
 }
@@ -370,7 +453,7 @@ class PhoneList implements StreamTest {
         return list.size();
     }
 
-    public void testIterator(){
+    public void testIterator() {
         System.out.println("testIterator:");
         // Метод коллекции iterator() возвращает объект итератор, то есть объект,
         // реализующий интерфейс Iterator
@@ -388,7 +471,7 @@ class PhoneList implements StreamTest {
     @Override
     public List<Phone> listPhoneList() {
         List<Phone> retList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             retList.add(list.get(i));
         }
         return retList;
@@ -404,20 +487,21 @@ class PhoneList implements StreamTest {
 
     @Override
     public Stream<Phone> stream() {
-        return StreamSupport.stream(new MyListSpliterator(list),true);
+        return StreamSupport.stream(new MyListSpliterator(list), true);
     }
 
     public static class MyListSpliterator implements Spliterator {
+
         private final List<Phone> lo;
         private int firstPosition, lastPosition;
         private final Function<Phone, String> function;
 
-        Function<Phone, String> convert = x-> x.getName() + " телефон";
+        Function<Phone, String> convert = x -> x.getName() + " телефон";
 
         MyListSpliterator(List<Phone> lo) {
             this.lo = lo;
             this.firstPosition = 0;
-            this.lastPosition = lo.size()-1;
+            this.lastPosition = lo.size() - 1;
             this.function = convert;
         }
 
@@ -479,10 +563,12 @@ class PhoneList implements StreamTest {
 
         @Override
         public Spliterator<Phone> trySplit() {
-            if (true) return null; // То есть просто фигачим подрял как есть, без распараллеливания
+            if (true) {
+                return null; // То есть просто фигачим подрял как есть, без распараллеливания
+            }
             // делим пополам
-            int half = (lastPosition - firstPosition)/2;
-            if (half<=1) {
+            int half = (lastPosition - firstPosition) / 2;
+            if (half <= 1) {
                 // Если Spliterator не удаётся разделить
                 // Больше нечего делить - вернем null
                 return null;
@@ -490,7 +576,7 @@ class PhoneList implements StreamTest {
             int f = firstPosition;
             int l = firstPosition + half;
 
-            firstPosition = firstPosition + half +1;
+            firstPosition = firstPosition + half + 1;
 
             return new MyListSpliterator(lo, f, l);
         }
