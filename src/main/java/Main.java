@@ -8,7 +8,9 @@ import basics.ComparableExample;
 import basics.ExceptionExample;
 import basics.GenericsExample;
 import format.FormatExample;
+import parsing.ParsLabel;
 import parsing.XMLParseTest;
+import parsing.regexpr;
 import pdf.PdfEdit;
 import basics.InterfaceTest;
 import stream.LambdaTest;
@@ -24,6 +26,13 @@ import word.WordToPdfSpireDoc;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
+        if (true) {
+            ParsLabel parsLabel = new ParsLabel();
+            parsLabel.test1();
+        }
+        if (false) {
+            regexpr.test1();
+        }
         if (false) {
             StreamAPIExample streamAPIExample = new StreamAPIExample();
             streamAPIExample.test11();
@@ -66,10 +75,11 @@ public class Main {
             //wordToPdfSpireDoc.test3();
             //wordToPdfSpireDoc.test4();
         }
-        if (true) {
+        if (false) {
             WordExcel wordExcel = new WordExcel();
-            wordExcel.test();
+            //wordExcel.test();
             //wordExcel.test1();
+            wordExcel.testTable();
         }
         if (false) {
             XMLParseTest xmlParseTest = new XMLParseTest();
