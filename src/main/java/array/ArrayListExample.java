@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Примеры работы с коллекциями
@@ -56,7 +57,8 @@ public class ArrayListExample {
     }
 
     public void test2() {
-        String methodName = new Object() {}
+        String methodName = new Object() {
+        }
                 .getClass()
                 .getEnclosingMethod()
                 .getName();
@@ -124,11 +126,11 @@ public class ArrayListExample {
         System.out.println(d.toString());
         dates.add(d);
         System.out.println(dates.get(0).toString());
-        d.setTime(d.getTime() + 1000*60*60);
+        d.setTime(d.getTime() + 1000 * 60 * 60);
         System.out.println(d.toString());
         System.out.println(dates.get(0).toString());
         dates.add(new Date(d.getTime()));
-        d.setTime(d.getTime() + 1000*60*60);
+        d.setTime(d.getTime() + 1000 * 60 * 60);
         System.out.println(d.toString());
         System.out.println(dates.get(1).toString());
     }
@@ -146,12 +148,13 @@ public class ArrayListExample {
             this.level = level;
         }
     }
+
     public void test4() {
         List<Appealactiontodel> appealactiontodel = new ArrayList<>();
-        appealactiontodel.add(new Appealactiontodel(100,10));
-        appealactiontodel.add(new Appealactiontodel(200,20));
-        appealactiontodel.add(new Appealactiontodel(300,30));
-        appealactiontodel.add(new Appealactiontodel(400,40));
+        appealactiontodel.add(new Appealactiontodel(100, 10));
+        appealactiontodel.add(new Appealactiontodel(200, 20));
+        appealactiontodel.add(new Appealactiontodel(300, 30));
+        appealactiontodel.add(new Appealactiontodel(400, 40));
         appealactiontodel.forEach(a -> System.out.println(a.appealaction_id + " " + a.level));
         for (Appealactiontodel value : appealactiontodel) {
             value.level = value.level + 2;
@@ -160,7 +163,7 @@ public class ArrayListExample {
 
     }
 
-    public void test5(){
+    public void test5() {
         // цикл
         for (String element : Arrays.asList("a", "b", "c", "d", "e")) {
             System.out.println(element);
@@ -175,6 +178,18 @@ public class ArrayListExample {
             System.out.println(element);
         });
 
+    }
+
+    // List в List c фильром
+    public void listToList() {
+        // цикл
+        for (String element : Arrays.asList("a", "b", "c", "d", "e")) {
+            System.out.println(element);
+        }
+        List<String> list = Arrays.asList("a", "b", "c", "d", "e");
+        List<String> filteredList = list.stream()
+                .filter(s -> s.contains("b"))
+                .collect(Collectors.toList());
     }
 
 }
@@ -226,7 +241,7 @@ class Journal implements Testable {
 }
 
 class Account {
-     
+
     private int id;
     private int sum;
 

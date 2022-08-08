@@ -26,9 +26,15 @@ import word.WordToPdfSpireDoc;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
-        if (true) {
+        if (false) {
             ParsLabel parsLabel = new ParsLabel();
             parsLabel.test1();
+        }
+        if (true) {
+            WordExcel wordExcel = new WordExcel();
+            //wordExcel.test();
+            //wordExcel.test1();
+            wordExcel.testTable();
         }
         if (false) {
             regexpr.test1();
@@ -74,12 +80,6 @@ public class Main {
             //wordToPdfSpireDoc.test2();
             //wordToPdfSpireDoc.test3();
             //wordToPdfSpireDoc.test4();
-        }
-        if (false) {
-            WordExcel wordExcel = new WordExcel();
-            //wordExcel.test();
-            //wordExcel.test1();
-            wordExcel.testTable();
         }
         if (false) {
             XMLParseTest xmlParseTest = new XMLParseTest();

@@ -1,12 +1,20 @@
 package parsing;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParsLabel {
 
-    // собирает ${label} по массиву
-    public List<String> parseDollarLabel(List<String> sl) {
+    /**
+     * собирает ${label} по массиву из нескольких смежных элементов массива строк делает один вида
+     * ${label} количество элементов остается неизменным
+     *
+     * @param sl - источник
+     * @return - новый массив
+     */
+    public static List<String> parseDollarLabel(List<String> sl) {
         if (sl == null) {
             return null;
         }
@@ -18,8 +26,19 @@ public class ParsLabel {
         boolean curlyBraceOpen = false; // открывающую фигурную скобку еще не нашли
         int labelLength = 0; // Из скольки элементов собрали метку
         String label = "";
+        int count = 0; // Текущий номер
         for (String text : sl) {
+            if (text == null) {
+                text = "";
+            }
+            if (text.contains("Планируемый")) {
+                System.out.println("Планируемый");
+            }
             if (!dollar) { // $ еще не нашли
+                // Подгоним размер
+                while (count > dl.size()) {
+                    dl.add("");
+                }
                 label = "";
                 // Ищем $
                 int dollarPos = text.indexOf("$");
@@ -82,11 +101,19 @@ public class ParsLabel {
                             // Надо надобавлять пустых, чтобы осталось равным кол-во
                             while (labelLength > 2) {
                                 labelLength--;
-                                dl.add("");
+                                //dl.add("");
                             }
                         }
                         labelLength = 0;
                     }
+                }
+            }
+            count++;
+            if (count == sl.size()) {
+                // Это последний ран - добавим пустые раны здесь
+                // Подгоним размер
+                while (count > dl.size()) {
+                    dl.add("");
                 }
             }
         }
@@ -111,8 +138,8 @@ public class ParsLabel {
         sl.add(" л/с, $");
         sl.add("{v_05_");
         sl.add("01");
-        sl.add("} ");
-        sl.add("куб.м/час, ");
+        sl.add("}");
+        sl.add(" куб.м/час, ");
         sl.add("$");
         sl.add("{v_05_03} куб.");
         sl.add(" м./сутки");
@@ -120,6 +147,46 @@ public class ParsLabel {
         for (String text : dl) {
             System.out.println("|" + text + "|");
         }
+        sl.clear();
+        sl.add("a");
+        sl.add("b");
+        sl.add("c");
+        dl.clear();
+        dl.add("a");
+        dl.add("b");
+        dl.add("c");
+        System.out.println(isEquelListString(sl, dl));
+    }
+
+    /**
+     * Сравнивает два списка строк с учетом порядка
+     *
+     * @param one первый
+     * @param two второй
+     * @return равны или нет
+     */
+    public static boolean isEquelListString(List<String> one, List<String> two) {
+        if (one == null && two == null) {
+            return true;
+        }
+
+        if (one == null || two == null || one.size() != two.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < one.size(); i++) {
+            if (one.get(i) == null && two.get(i) != null) {
+                return false;
+            }
+            if (one.get(i) != null && two.get(i) == null) {
+                return false;
+            }
+            if (!one.get(i).equals(two.get(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void test2() {

@@ -15,6 +15,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.apache.xmlbeans.XmlCursor;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPageSz;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
+import parsing.ParsLabel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,38 +39,18 @@ public class WordExcel {
         XWPFDocument doc = readFile(
                 "d:/WORK/DATA/Projects/РКС/Техническое_присоединение/Documents/2021/Карточки задач/72271 Печать заявления на выдачу ТУ/"
                         + "shablon_zapros_o_vidache_tu_queue.docx");
+        /*
         doc = readFile(
                 "d:/WORK/DATA/Projects/РКС/Техническое_присоединение/Documents/2021/Карточки задач/72271 Печать заявления на выдачу ТУ/"
                         + "shablon_zapros_o_vidache_tu.docx");
-        // По всем параграфам
-        // Список всех параграфов
-        List<XWPFParagraph> paragraphList = getAllParagraphs(doc);
-        for (XWPFParagraph p : paragraphList) {
-            boolean dollar = false; // Знак доллара
-            int dollarPos = -1;
-            boolean curlyBraceOpens = false; // Фигурная скобка откр
-            for (XWPFRun r : p.getRuns()) {
-                // Ищем доллар
-                if (!dollar) { // мы еще не в поиске
-                    String s = getText(r);
-                    if (s.contains("$")) {
-                        dollar = true; // доллар найден
-                        dollarPos = s.indexOf("$");
-                        if (dollarPos < s.length()) {
-                            if (s.substring(dollarPos+1,1).equals("{")) {
-                                curlyBraceOpens = true; // Нашли ${
-                                int i = s.indexOf("}", dollarPos+2);
-                                if (i != -1) {
-                                    // В этом ране есть метка в формате ${name}
-                                    // ничего не делаем
-                                    dollar = false; // будем искать дальше
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+
+         */
+        doc = readFile(
+                "d:/WORK/DATA/Projects/РКС/Техническое_присоединение/Documents/2021/Карточки задач/72271 Печать заявления на выдачу ТУ/"
+                        + "shablon_zapros_contract_queue.docx");
+
+
+        buildLabelRun(doc);
 
         System.out.println("!!!!!!!!!!!!!");
         // Количество очередей
@@ -98,13 +79,12 @@ public class WordExcel {
         } else {
             String s = "xml_addconnectloadparamdata_value_05__";
 
-
             makeSimpleTable(doc, queuecount, "xml_show_name__");
             makeSimpleTable(doc, queuecount, "xml_statementtc_connectobjname__");
             makeDifficultTable(doc, queuecount, "xml_infmaxparam1__");
             makeSimpleTable(doc, queuecount, "xml_statementtc_dateplan__");
             makeDifficultTable(doc, queuecount, "xml_addconnectloadparamdata_value_05_3__");
-            replaceLabelDollar(doc, "requestor_name", "Рога");
+            replaceLabelDollar(doc, "requestor_name", "Рога и Копыта");
             replaceLabelDollar(doc, "xml_statementtc_connectobjname__2", "Мадагаскар");
             replaceLabelDollar(doc, "xml_infmaxparam1__1", "Километр");
 
@@ -126,10 +106,53 @@ public class WordExcel {
     }
 
     /**
-     * Создание слоожной таблицы
+     * Собирает метки вида ${name} из смежных ранов
+     *
      * @param doc - документ
+     */
+    private void buildLabelRun(XWPFDocument doc) {
+        // Список всех параграфов
+        List<XWPFParagraph> paragraphList = getAllParagraphs(doc);
+        List<String> sl = new ArrayList<>();
+        for (XWPFParagraph p : paragraphList) {
+            String partext = p.getText();
+            if (partext.contains("в том числе на нужды пожаротушения ")) {
+                partext = partext;
+            }
+            // Добавим тексты всех ранов в массив
+            sl.clear();
+            for (XWPFRun r : p.getRuns()) {
+                sl.add(r.getText(0));
+            }
+            List<String> dl = ParsLabel.parseDollarLabel(sl); // Преобразуем в виду ${label}
+            if (!ParsLabel.isEquelListString(sl, dl)) {
+                // Списки не одинаковые - все заменяем
+                int i = 0;
+                for (XWPFRun r : p.getRuns()) {
+                    // Меняем только если текст не равен
+                    String d = dl.get(i);
+                    if (d == null) {
+                        d = "";
+                    }
+                    String s = r.getText(0);
+                    if (s == null) {
+                        s = "";
+                    }
+                    if (!s.equals(d)) {
+                        r.setText(d, 0);
+                    }
+                    i++;
+                }
+            }
+        }
+    }
+
+    /**
+     * Создание слоожной таблицы
+     *
+     * @param doc        - документ
      * @param queuecount - количество очередей
-     * @param label - метка для определения таблицы, без 1 на конце
+     * @param label      - метка для определения таблицы, без 1 на конце
      */
     private void makeDifficultTable(XWPFDocument doc, int queuecount, String label) {
         String labelDollar = "${" + label + "1}";
@@ -140,6 +163,8 @@ public class WordExcel {
         }
         // Список по колонкам со строками-параграфами
         List<String[]> ls = new ArrayList<>();
+        // Первая строка таблицы
+        XWPFTableRow firstRow = t.getRows().get(t.getNumberOfRows() - 1);
         int currRowNumb = 1; // Считаем, что одна строчка под одну очередь уже есть
         do {
             XWPFTableRow row = t.getRows().get(t.getNumberOfRows() - 1);
@@ -165,22 +190,54 @@ public class WordExcel {
                     } else {
                         // Это не первая ячейка
                         // Надо добавить столько параграфов сколько запомнено
-                        // Предварительно убалив параграф
+                        // Предварительно удалив параграф
                         while (c.getParagraphs().size() > 0) {
                             c.removeParagraph(0);
                         }
-                        for (String text : ls.get(i)) {
-                            XWPFParagraph p = c.addParagraph();
-                            // Ищем есть ли что заменять
-                            if (text.indexOf("${") < text.indexOf("}")) {
-                                // Есть что заменять
-                                // Заменим последнюю цифру на номер строчки
-                                String s1 = text.substring(0,text.indexOf("${"));
-                                String s2 = text.substring(text.indexOf("}"));
-                                String s3 = text.substring(text.indexOf("${"), text.indexOf("}") - 1);
-                                text = s1 + s3 + currRowNumb + s2;
+                        if (true) {
+                            // !!!!!!!!!!!!!!!!!!
+                            // Надо скопировать форматы
+                            for (XWPFParagraph pf: firstRow.getCell(i).getParagraphs()) {
+                                //c.addParagraph(p); - так нельзя - надо создавать новые
+                                XWPFParagraph p = c.addParagraph();
+                                // и накопировать ранов
+                                for (XWPFRun rf: pf.getRuns()) {
+                                    String text = rf.getText(0);
+                                    // Ищем есть ли что заменять
+                                    if (text.contains("${") && text.contains("}")) {
+                                        if (text.indexOf("${") < text.indexOf("}")) {
+                                            // Есть что заменять
+                                            // Заменим последнюю цифру на номер строчки
+                                            String s1 = text.substring(0, text.indexOf("${"));
+                                            String s2 = text.substring(text.indexOf("}"));
+                                            String s3 = text.substring(text.indexOf("${"),
+                                                    text.indexOf("}") - 1);
+                                            text = s1 + s3 + currRowNumb + s2;
+                                        }
+                                    }
+                                    XWPFRun r = p.createRun();
+                                    // установим форматы у текущей как у предыдущей
+                                    copyFormat(rf, r);
+                                    r.setText(text,0);
+                                }
                             }
-                            setText(p, text);
+                        } else {
+                            for (String text : ls.get(i)) {
+                                XWPFParagraph p = c.addParagraph();
+                                // Ищем есть ли что заменять
+                                if (text.contains("${") && text.contains("}")) {
+                                    if (text.indexOf("${") < text.indexOf("}")) {
+                                        // Есть что заменять
+                                        // Заменим последнюю цифру на номер строчки
+                                        String s1 = text.substring(0, text.indexOf("${"));
+                                        String s2 = text.substring(text.indexOf("}"));
+                                        String s3 = text.substring(text.indexOf("${"),
+                                                text.indexOf("}") - 1);
+                                        text = s1 + s3 + currRowNumb + s2;
+                                    }
+                                }
+                                setText(p, text);
+                            }
                         }
                     }
                 }
@@ -494,6 +551,7 @@ public class WordExcel {
         to.setFontFamily(from.getFontFamily());
         to.setBold(from.isBold());
         to.setColor(from.getColor());
+        to.setItalic(from.isItalic());
     }
 
     /**

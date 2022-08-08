@@ -22,6 +22,9 @@ public class GenericsExample {
 
 }
 
+/**
+ * Автомобиль
+ */
 class Avto {
 
     private String modelName;
