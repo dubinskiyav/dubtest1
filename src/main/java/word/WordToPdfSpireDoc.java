@@ -1,7 +1,7 @@
 package word;//import com.spire.doc.*;
 
-import com.spire.doc.Document;
-import com.spire.doc.FileFormat;
+import com.spire.doc.ToPdfParameterList;
+import com.spire.pdf.FileFormat;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import fr.opensagres.xdocreport.converter.ConverterRegistry;
@@ -36,12 +36,23 @@ public class WordToPdfSpireDoc {
 
     public void test1() {
         // Здесь валится
-        com.spire.doc.Document document = new Document();
-        document.loadFromFile("d:/WORK/Programming/dubtest1/src/main/resources/Файл.docx");
+        com.spire.doc.Document document = new com.spire.doc.Document();
+        document.loadFromFile("C:/WORK/Programming/dubtest1/src/main/resources/Файл.docx");
 
 
         //Сохранить как PDF
-        document.saveToFile("D/TEMP/Файл.pdf", FileFormat.PDF);
+        //Create a ToPdfParameterList instance
+        ToPdfParameterList ppl=new ToPdfParameterList();
+        //Embed all fonts in the PDF document
+        ppl.isEmbeddedAllFonts(true);
+        //Remove the hyperlinks and keep the character formats
+        ppl.setDisableLink(true);
+
+        //Set the output image quality as 40% of the original image. 80% is the default setting.
+        document.setJPEGQuality(40);
+
+        document.saveToFile("C:/WORK/Programming/dubtest1/src/main/resources/Файл.pdf", ppl);
+        //document.saveToFile("C:/WORK/Programming/dubtest1/src/main/resources/Файл.pdf");
     }
     public void test2() {
 

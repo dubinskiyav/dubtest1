@@ -46,12 +46,13 @@
       <artifactId>fr.opensagres.xdocreport.converter</artifactId>
       <version>2.0.2</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/e-iceblue/spire.doc.free -->
+    <!-- https://mvnrepository.com/artifact/e-iceblue/spire.doc -->
     <dependency>
       <groupId>e-iceblue</groupId>
-      <artifactId>spire.doc.free</artifactId>
-      <version>3.9.0</version>
+      <artifactId>spire.doc</artifactId>
+      <version>11.10.3</version>
     </dependency>
+
     <!-- https://mvnrepository.com/artifact/fr.opensagres.xdocreport/fr.opensagres.poi.xwpf.converter.pdf -->
     <dependency>
       <groupId>fr.opensagres.xdocreport</groupId>
@@ -126,11 +127,13 @@
       <artifactId>documents4j-transformer-msoffice-word</artifactId>
       <version>1.1.7</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>23.0</version>
+      <version>32.1.2-jre</version>
     </dependency>
+
     <dependency>
       <groupId>fr.opensagres</groupId>
       <artifactId>org.apache.poi.xwpf.converter</artifactId>
@@ -197,6 +200,21 @@
       <artifactId>pdfa</artifactId>
       <version>7.2.1</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail -->
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>jakarta.mail</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/fr.opensagres.xdocreport/xdocreport -->
+    <dependency>
+      <groupId>fr.opensagres.xdocreport</groupId>
+      <artifactId>xdocreport</artifactId>
+      <version>2.0.4</version>
+    </dependency>
+
+
   </dependencies>
 
   <properties>

@@ -8,6 +8,8 @@ import basics.ComparableExample;
 import basics.ExceptionExample;
 import basics.GenericsExample;
 import format.FormatExample;
+import jakarta.mail.MessagingException;
+import mail.MailTest;
 import parsing.ParsLabel;
 import parsing.XMLParseTest;
 import parsing.regexpr;
@@ -22,15 +24,31 @@ import word.WordToPdfAspose;
 import word.WordToPdfDocuments4j;
 import word.WordToPdfDocx4j;
 import word.WordToPdfSpireDoc;
+import word.WordToPdfXdocreport;
+
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
         if (false) {
+            WordToPdfXdocreport wordToPdfXdocreport = new WordToPdfXdocreport();
+            wordToPdfXdocreport.test();
+            //wordToPdf2.test2();
+        }
+        if (false) {
+            MailTest mailTest = new MailTest();
+            try {
+                mailTest.send();
+            } catch (MessagingException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (false) {
             ParsLabel parsLabel = new ParsLabel();
             parsLabel.test1();
         }
-        if (true) {
+        if (false) {
             WordExcel wordExcel = new WordExcel();
             //wordExcel.test();
             //wordExcel.test1();
@@ -74,7 +92,7 @@ public class Main {
             WordToPdfAspose wordToPdfAspose = new WordToPdfAspose();
             wordToPdfAspose.test1();
         }
-        if (false) {
+        if (true) {
             WordToPdfSpireDoc wordToPdfSpireDoc = new WordToPdfSpireDoc();
             wordToPdfSpireDoc.test1();
             //wordToPdfSpireDoc.test2();
