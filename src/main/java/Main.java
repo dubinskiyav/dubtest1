@@ -23,6 +23,7 @@ import word.WordToPdfApachePOI;
 import word.WordToPdfAspose;
 import word.WordToPdfDocuments4j;
 import word.WordToPdfDocx4j;
+import word.WordToPdfGelicon;
 import word.WordToPdfSpireDoc;
 import word.WordToPdfXdocreport;
 
@@ -31,6 +32,10 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
+        if (true) {
+            WordToPdfGelicon WordToPdfGelicon = new WordToPdfGelicon();
+            WordToPdfGelicon.test();
+        }
         if (false) {
             WordToPdfXdocreport wordToPdfXdocreport = new WordToPdfXdocreport();
             wordToPdfXdocreport.test();
@@ -92,7 +97,7 @@ public class Main {
             WordToPdfAspose wordToPdfAspose = new WordToPdfAspose();
             wordToPdfAspose.test1();
         }
-        if (true) {
+        if (false) {
             WordToPdfSpireDoc wordToPdfSpireDoc = new WordToPdfSpireDoc();
             wordToPdfSpireDoc.test1();
             //wordToPdfSpireDoc.test2();
