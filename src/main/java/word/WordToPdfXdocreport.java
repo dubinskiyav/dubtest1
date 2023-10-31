@@ -1,23 +1,20 @@
 package word;
 
-import com.documents4j.api.DocumentType;
-import com.documents4j.api.IConverter;
-import com.documents4j.job.LocalConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
-import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+
+
+/**
+ * Рабочая конвертация
+ */
 
 public class WordToPdfXdocreport {
 
