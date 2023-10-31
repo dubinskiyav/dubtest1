@@ -7,15 +7,12 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.element.Text;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.IBodyElement;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
@@ -88,6 +85,39 @@ public class WordToPdfGelicon {
                     document.add(table);
                 }
             }
+            // Объединение ячеек
+            Table table = new Table(3);
+            int rowNum = 1;
+            int colNum = 0;
+            Cell cell = new Cell(rowNum, colNum);
+            Paragraph par = new Paragraph("Рараграф " + rowNum + ", " + colNum);
+            cell.add(par);
+            table.addCell(cell);
+            colNum = 1;
+            cell = new Cell(rowNum, colNum);
+            par = new Paragraph("Рараграф " + rowNum + ", " + colNum);
+            cell.add(par);
+            table.addCell(cell);
+            colNum = 2;
+            cell = new Cell(rowNum, colNum);
+            par = new Paragraph("Рараграф " + rowNum + ", " + colNum);
+            cell.add(par);
+            table.addCell(cell);
+            rowNum = 2;
+            colNum = 2;
+            cell = new Cell(rowNum, colNum);
+            par = new Paragraph("Рараграф " + rowNum + ", " + colNum);
+            cell.add(par);
+            table.addCell(cell);
+            colNum = 3;
+            cell = new Cell(rowNum, colNum);
+            par = new Paragraph("Рараграф " + rowNum + ", " + colNum);
+            cell.add(par);
+            table.addCell(cell);
+            table.setWidth(500);
+
+            document.add(table);
+
             // Закрываем документ
             document.close();
         } catch (FileNotFoundException e) {
