@@ -18,6 +18,7 @@ import basics.InterfaceTest;
 import stream.LambdaTest;
 import stream.StreamAPIExample;
 import stream.StreamCreateTest;
+import stream.SpeedTest;
 import word.WordExcel;
 import word.WordToPdfApachePOI;
 import word.WordToPdfAspose;
@@ -33,6 +34,10 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
         if (true) {
+            SpeedTest speedTest = new SpeedTest();
+            speedTest.test();
+        }
+        if (false) {
             WordToPdfGelicon WordToPdfGelicon = new WordToPdfGelicon();
             WordToPdfGelicon.test();
         }
