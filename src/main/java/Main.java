@@ -15,6 +15,7 @@ import parsing.XMLParseTest;
 import parsing.regexpr;
 import pdf.PdfEdit;
 import basics.InterfaceTest;
+import prison.Prison;
 import stream.LambdaTest;
 import stream.StreamAPIExample;
 import stream.StreamCreateTest;
@@ -31,9 +32,22 @@ import word.WordToPdfXdocreport;
 import java.io.IOException;
 
 public class Main {
+
     public static void main(String[] args) {
         System.out.println("Hello World");
         if (true) {
+            Prison prison = new Prison();
+            // сделаем 100 попыток
+            int success = 0;
+            int count = 10000;
+            for (int i = 1; i <= count; i++) {
+                if (prison.test()) {
+                    success++;
+                }
+            }
+            System.out.println("Процент успеха = " + ((double) success * 100.0 / (double) count));
+        }
+        if (false) {
             SpeedTest speedTest = new SpeedTest();
             speedTest.test();
         }
