@@ -1,7 +1,5 @@
 package prison;
 
-import org.docx4j.wml.PPrBase;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,12 +19,6 @@ public class Prison {
         for (int i=0; i < prisoners.length; i++) {
             prisoners[i] = i + 1;
         }
-        // сто коробок
-        int[] boxes = new int[100];
-        // пронумерованных от одного до 100
-        for (int i=0; i < boxes.length; i++) {
-            boxes[i] = i + 1;
-        }
         // Коробки с листочками
         // ключ - номер коробки
         HashMap<Integer, Integer> boxesWithList = new HashMap<>();
@@ -41,9 +33,9 @@ public class Prison {
             // random генерит псевдослучайное число от 0 до 1 (без единицы)
             // а нам надо от 1 до left
             // значит так
-            int i = (int) (Math.random() * left); // случайное число от 0 до left-1
+            //int i = (int) (Math.random() * left); // случайное число от 0 до left-1
             Random random = new Random();
-            i = random.nextInt(left); // вернет случайное число от 0 до 99
+            int i = random.nextInt(left); // вернет случайное число от 0 до 99
             // поместим i-й номер из списка lists в boxNumber-ю коробку
             boxesWithList.put(boxNumber, lists[i]);
             // и удалим его

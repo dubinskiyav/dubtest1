@@ -46,6 +46,7 @@ public class Main {
                 }
             }
             System.out.println("Процент успеха = " + ((double) success * 100.0 / (double) count));
+            System.out.println("Процент успеха точный = 1-ln2 = " + (1 - Math.log(2)));
         }
         if (false) {
             SpeedTest speedTest = new SpeedTest();
